@@ -3,8 +3,8 @@ import Text from './Text'
 
 const styles = StyleSheet.create({
     smallImage: {
-        width: 50,
-        height: 50,
+        width: 60,
+        height: 60,
         verticalAlign: 'top'
     },
     row: {
@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
         fontSize: 20,
+        paddingLeft: 5,
+        paddingRight: 5,
+        paddingTop: 5,
+        paddingBottom: 5,
     },
     bodyText: {
         color: '#000000',
