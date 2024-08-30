@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     smallImage: {
         width: 60,
         height: 60,
-        verticalAlign: 'top'
     },
     row: {
         flexDirection: 'column',
