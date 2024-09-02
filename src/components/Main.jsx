@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const login = (values) => {
+  console.log('--- login ---')
+  console.log(values);
+}
+
 const Main = () => {
   console.log('Main starting')
   return (
@@ -20,7 +25,7 @@ const Main = () => {
       <AppBar />
       <Routes>        
         <Route path="/" element={<RepositoryList />} />        
-        <Route path="/login" element={<SignIn />} />       
+        <Route path="/login" element={<SignIn onSubmit={login} />} />  
         <Route path="*" element={<Navigate to="/" replace />} />      
       </Routes>
     </View>

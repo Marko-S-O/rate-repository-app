@@ -27,10 +27,6 @@ const AppBar = () => {
             <AppBarTab tabText={'Repositories'} link={'/'} />
             <AppBarTab tabText={'Sign in'} link={'/login'} />
             <AppBarTab tabText={'Test 1'} link={'/login'} />
-            <AppBarTab tabText={'Test 2'} link={'/login'} />
-            <AppBarTab tabText={'Test 3'} link={'/login'} />
-            <AppBarTab tabText={'Test 4'} link={'/login'} />
-            <AppBarTab tabText={'Test 5'} link={'/login'} />
         </ScrollView>
     </View>
   )
