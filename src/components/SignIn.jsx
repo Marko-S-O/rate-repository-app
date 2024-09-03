@@ -2,13 +2,15 @@ import { TextInput, View, Pressable, StyleSheet } from 'react-native'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import Text from './Text'
+import theme from '../theme'
 
 const styles = StyleSheet.create({
 
     textInput: {
-        color: '#000000',
-        fontWeight: 'normal',
-        fontSize: 20,
+        fontFamily: theme.fontFamily,
+        color: theme.colors.textPrimary,
+        fontWeight: theme.fontWeights.normal,
+        fontSize: theme.fontSizes.input,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 5,
@@ -22,9 +24,9 @@ const styles = StyleSheet.create({
         marginRight: 10,       
     }, 
     textInputError: {
-        color: '#d73a4a',
-        fontWeight: 'normal',
-        fontSize: 20,
+        color: theme.colors.error,
+        fontWeight: theme.fontWeights.normal,
+        fontSize: theme.fontSizes.input,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 5,
@@ -38,10 +40,10 @@ const styles = StyleSheet.create({
         marginRight: 10,       
     }, 
     button: {
-        color: '#FFFFFF',
-        backgroundColor:'#007ACC',
-        fontWeight: 'bold',
-        fontSize: 20,
+        color: theme.colors.buttonText,
+        backgroundColor:theme.colors.button,
+        fontWeight: theme.fontWeights.bold,
+        fontSize: theme.fontSizes.input,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 5,

@@ -1,6 +1,7 @@
 import { View, StyleSheet, Pressable } from 'react-native'
 import { Link } from 'react-router-native'
 import Text from './Text'
+import theme from '../theme'
 
 const styles = StyleSheet.create({
   container: {
@@ -8,15 +9,16 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 0, 
-    backgroundColor: '#24292e',
+    backgroundColor: theme.colors.darkBackground,
     opacity: 0.8,
     // ...
   },
   containerText: {
-    color: '#FFFFFF',
-    backgroundColor: '#24292e',
-    fontWeight: '700',
-    fontSize: 20,
+    fontFamily: theme.fontFamily,
+    color: theme.colors.textOnDarkBackground,
+    backgroundColor: theme.colors.darkBackground,
+    fontWeight: theme.fontWeights.bold,
+    fontSize: theme.fontSizes.heading,
   }
 })
 

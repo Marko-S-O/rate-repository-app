@@ -1,5 +1,6 @@
 import {View, Image, StyleSheet} from 'react-native'
 import Text from './Text'
+import theme from '../theme'
 
 const styles = StyleSheet.create({
     smallImage: {
@@ -21,18 +22,20 @@ const styles = StyleSheet.create({
         paddingBottom: 5
     },
     boldText: {
-        color: '#000000',
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontFamily: theme.fontFamily,
+        color: theme.colors.textPrimary,
+        fontWeight: theme.fontWeights.bold,
+        fontSize: theme.fontSizes.heading,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 5,
         paddingBottom: 5,
     },
     bodyText: {
-        color: '#000000',
-        fontWeight: 'normal',
-        fontSize: 15,
+        fontFamily: theme.fontFamily,
+        color: theme.colors.textPrimary,
+        fontWeight: theme.fontWeights.normal,
+        fontSize: theme.fontSizes.body,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 5,
@@ -40,10 +43,11 @@ const styles = StyleSheet.create({
 
     },
     highlightText: {
-        color: '#FFFFFF',
-        backgroundColor:'#007ACC',
-        fontWeight: 'normal',
-        fontSize: 15,
+        fontFamily: theme.fontFamily,
+        color: theme.colors.textOnDarkBackground,
+        backgroundColor:theme.colors.button,
+        fontWeight: theme.fontWeights.normal,
+        fontSize: theme.fontSizes.body,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 2,
