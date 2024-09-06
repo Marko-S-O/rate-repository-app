@@ -3,7 +3,10 @@ import { useFormik } from 'formik'
 import * as yup from 'yup';
 import Text from './Text'
 import theme from '../theme'
+import AuthStorage from '../utils/authStorage'
 import {useSignIn} from '../hooks/useSignIn'
+
+const authStorage = new AuthStorage()
 
 const styles = StyleSheet.create({
 
@@ -87,6 +90,7 @@ const SignIn = () => {
             if(data && data.authenticate) {
                 console.log('succesful login in JSX')
                 console.log('Token: ' + data.authenticate.accessToken)
+                authStorage.setAccessToken(data.authenticate.accessToken)
             }
         } catch (e) {
             console.log('Sign in failed in JSX: ' + e.message)
