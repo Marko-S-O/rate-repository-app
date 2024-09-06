@@ -1,12 +1,10 @@
 import { TextInput, View, Pressable, StyleSheet } from 'react-native'
+import { useNavigate } from 'react-router-native'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import Text from './Text'
 import theme from '../theme'
-import AuthStorage from '../utils/authStorage'
 import {useSignIn} from '../hooks/useSignIn'
-
-const authStorage = new AuthStorage()
 
 const styles = StyleSheet.create({
 
@@ -79,6 +77,7 @@ const initialValues = {
 
 const SignIn = () => {
 
+    const navigate = useNavigate()
     const [signIn] = useSignIn()
 
     const onSubmit = async (values) => {
@@ -88,13 +87,11 @@ const SignIn = () => {
         try {
             const data = await signIn({ username, password })
             if(data && data.authenticate) {
-                console.log('succesful login in JSX')
-                console.log('Token: ' + data.authenticate.accessToken)
-                authStorage.setAccessToken(data.authenticate.accessToken)
-            }
+                console.log('succesful login in JSX')  
+                navigate('/')
+            } 
         } catch (e) {
             console.log('Sign in failed in JSX: ' + e.message)
-            return
         }
 
         console.log(username + ' logged in')
