@@ -2,6 +2,7 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 import Constants from 'expo-constants'
 import AppBarTab from './AppBarTab'
 import theme from '../theme'
+import {useIsAuthenticated} from "../hooks/useAuthenticated"
 
 const styles = StyleSheet.create({
   container: {
@@ -23,11 +24,18 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+
+  const authenticated = useIsAuthenticated()
+  console.log('*** authenticated in AppBar: ' + authenticated)
+
   return(
     <View style={styles.container}>
         <ScrollView horizontal>
             <AppBarTab tabText={'Repositories'} link={'/'} />
-            <AppBarTab tabText={'Sign in'} link={'/login'} />
+            {authenticated ?
+              <AppBarTab tabText={'Logout'} link={'/logout'} /> :
+              <AppBarTab tabText={'Sign in'} link={'/login'} />
+            }
         </ScrollView>
     </View>
   )

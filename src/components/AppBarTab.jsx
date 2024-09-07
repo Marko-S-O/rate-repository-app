@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
 })
 
 const AppBarTab = ({tabText, link}) => {
-  console.log('tabText: ' + tabText)
-  console.log('link: ' + link)
+  //console.log('tabText: ' + tabText)
+  //console.log('link: ' + link)
   return (
     <View style={styles.container}>
         <Pressable>

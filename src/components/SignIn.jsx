@@ -6,6 +6,7 @@ import Text from './Text'
 import theme from '../theme'
 import {useSignIn} from '../hooks/useSignIn'
 
+
 const styles = StyleSheet.create({
 
     textInput: {
@@ -80,10 +81,11 @@ const SignIn = () => {
     const navigate = useNavigate()
     const [signIn] = useSignIn()
 
+
     const onSubmit = async (values) => {
 
         const { username, password } = values
-    
+  
         try {
             const data = await signIn({ username, password })
             if(data && data.authenticate) {
@@ -93,6 +95,8 @@ const SignIn = () => {
         } catch (e) {
             console.log('Sign in failed in JSX: ' + e.message)
         }
+        
+        console.log('authenticated after mutation: ' + authenticated)
 
         console.log(username + ' logged in')
     }
