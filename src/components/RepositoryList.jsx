@@ -51,6 +51,19 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
+export const RepositoryListContainer = ({ repositoryNodes }) => {
+
+    return(
+      <FlatList 
+        data={repositoryNodes} 
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({item}) => <RepositoryItem item={item} />}
+        keyExtractor={item => item.id}
+      />
+    )
+
+}
+
 const RepositoryList = () => {
 
   const {data, error, loading} = useQuery(GET_REPOSITORIES, {fetchPolicy: 'cache-and-network'})
@@ -75,11 +88,7 @@ const RepositoryList = () => {
   return (
     <View>
       {authenticated ?
-        <FlatList data={repositoryNodes} 
-          ItemSeparatorComponent={ItemSeparator}
-          renderItem={({item}) => <RepositoryItem item={item} />}
-          keyExtractor={item => item.id}
-        />
+        <RepositoryListContainer repositoryNodes={repositoryNodes} />
         :
         <Link to="/login" >
           <Text style={styles.boldText}>
