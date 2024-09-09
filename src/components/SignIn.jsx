@@ -96,8 +96,6 @@ const SignIn = () => {
             console.log('Sign in failed in JSX: ' + e.message)
         }
         
-        console.log('authenticated after mutation: ' + authenticated)
-
         console.log(username + ' logged in')
     }
 

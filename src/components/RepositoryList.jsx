@@ -51,18 +51,22 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-export const RepositoryListContainer = ({ repositoryNodes }) => {
+export const RepositoryListContainer = ({ repositories }) => {
+  
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : []
 
-    return(
-      <FlatList 
-        data={repositoryNodes} 
-        ItemSeparatorComponent={ItemSeparator}
-        renderItem={({item}) => <RepositoryItem item={item} />}
-        keyExtractor={item => item.id}
-      />
-    )
-
+  return (
+    <FlatList
+      data={repositoryNodes}
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={({item}) => <RepositoryItem item={item} />}
+      keyExtractor={item => item.id}
+    />
+  )
 }
+
 
 const RepositoryList = () => {
 
@@ -78,17 +82,10 @@ const RepositoryList = () => {
     return <View><Text>Loading data...</Text></View>;
   }
 
-  const repositoryNodes = data ?
-     data.repositories.edges.map(edge => edge.node)
-    : []
-
-  //console.log('RepositoryList starting')
-  //console.log(repositoryNodes)
-
   return (
     <View>
       {authenticated ?
-        <RepositoryListContainer repositoryNodes={repositoryNodes} />
+        <RepositoryListContainer repositories={data.repositories} />
         :
         <Link to="/login" >
           <Text style={styles.boldText}>

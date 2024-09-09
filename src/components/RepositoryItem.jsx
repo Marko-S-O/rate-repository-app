@@ -77,17 +77,18 @@ const ReposityItem = ({item}) => {
     const starsText = item.stargazersCount <1000 ? item.stargazersCount : Math.round(item.stargazersCount/100)/10 + 'k'
     const forksText = item.forksCount <1000 ? item.forksCount : Math.round(item.forksCount/100)/10 + 'k'
     const reviewsText = item.reviewCount <1000 ? item.reviewCount : Math.round(item.reviewCount/100)/10 + 'k'
+    const ratingAverageText = '' + item.ratingAverage //needed to make Jest tests work
 
     return( 
-        <View style={styles.row}>
+        <View style={styles.row} testID='repositoryItem'>
             <View style={styles.horizontalComponents}>
                 <Image
                     style={styles.smallImage}
                     source={{uri: item.ownerAvatarUrl}} />
                 <View style={styles.verticalComponents}>
-                    <Text style={styles.boldText}>{item.fullName}</Text>
-                    <Text style={styles.bodyText}>{item.description}</Text>
-                    <Text style={styles.highlightText}>{item.language}</Text>
+                    <Text style={styles.boldText} id='fullName'>{item.fullName}</Text>
+                    <Text style={styles.bodyText} id='description'>{item.description}</Text>
+                    <Text style={styles.highlightText} id='language'>{item.language}</Text>
                 </View>
             </View>
             <View style={[
@@ -96,7 +97,7 @@ const ReposityItem = ({item}) => {
                 <TwoRowText topText={starsText} bottomText='Stars' />
                 <TwoRowText topText={forksText} bottomText='Forks' />
                 <TwoRowText topText={reviewsText} bottomText='Reviews' />
-                <TwoRowText topText={item.ratingAverage} bottomText='Ratings' />
+                <TwoRowText topText={ratingAverageText} bottomText='Ratings' />
             </View>
         </View>
     )

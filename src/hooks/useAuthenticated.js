@@ -11,6 +11,7 @@ export const useIsAuthenticated = () => {
 
   if (error) {
     console.error('Error fetching user data:', error.message)
+    console.error(error)
     return false
   }
 
