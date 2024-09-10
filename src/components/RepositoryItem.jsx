@@ -1,4 +1,5 @@
 import {View, Image, StyleSheet} from 'react-native'
+import { Link } from 'react-router-native'
 import Text from './Text'
 import theme from '../theme'
 
@@ -86,8 +87,12 @@ const ReposityItem = ({item}) => {
                     style={styles.smallImage}
                     source={{uri: item.ownerAvatarUrl}} />
                 <View style={styles.verticalComponents}>
-                    <Text style={styles.boldText} id='fullName'>{item.fullName}</Text>
-                    <Text style={styles.bodyText} id='description'>{item.description}</Text>
+                    <Link to={`/repository/${item.id}`}>
+                        <Text style={styles.boldText} id='fullName'>{item.fullName}</Text>
+                    </Link>
+                    <Link to={`/repository/${item.id}`}>
+                        <Text style={styles.bodyText} id='description'>{item.description}</Text>
+                    </Link>
                     <Text style={styles.highlightText} id='language'>{item.language}</Text>
                 </View>
             </View>
