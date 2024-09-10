@@ -118,11 +118,15 @@ const RepositoryContainer = ({repository}) => {
         Linking.openURL(link)
     }
 
+    console.log('---- rendering repository ----')
+    console.log(repository.ownerName)
+    console.log(repository.fullName)
+
     return(
         <View>
             <ReposityItem item={repository} />
 
-            <Pressable style={styles.button} onPress={() => openUrl(data.repository.url)} testID='githHubtButton'>
+            <Pressable style={styles.button} onPress={() => openUrl(repository.url)} testID='githHubtButton'>
                 <Text style={styles.button} >Open in GitHub</Text>
             </Pressable>
         </View>
