@@ -80,15 +80,16 @@ const styles = StyleSheet.create({
     ratingNumber: {
         width: 40,               
         height: 40,
+        lineHeight: 40,
         borderWidth: 3,
         borderRadius: 20,
-        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 20, 
         borderColor: theme.colors.button,
         color: theme.colors.button,
-        fontWeight: theme.fonts.bold
+        fontWeight: theme.fonts.bold,
+        textAlign: 'center'
       }
 })
 
@@ -110,37 +111,27 @@ const ReviewItem = ({item}) => {
     )
 }
 
-const ReviewList = ({list}) => {
-
-    //console.log('----- ReviewList -----')
-
-    const reviewNodes = list
-    ? list.edges.map((edge) => edge.node)
-    : []
-
-    return(
-        <View style={styles.horizontalComponents}>
-            <FlatList
-                data={reviewNodes}
-                ItemSeparatorComponent={ItemSeparator}
-                renderItem={({item}) => <ReviewItem item={item} />}
-                keyExtractor={item => item.id}
-            />          
-        </View>
-    )
-}
-
-const Reposity = () => {
+const RepositoryContainer = ({repository}) => {
 
     const openUrl = (link) => {
         //console.log('---- opening URL: ' + link)
         Linking.openURL(link)
     }
 
-    const { id } = useParams()
+    return(
+        <View>
+            <ReposityItem item={repository} />
 
-    //console.log('---- fetching repository -----')
-    //console.log('id: ' + id)
+            <Pressable style={styles.button} onPress={() => openUrl(data.repository.url)} testID='githHubtButton'>
+                <Text style={styles.button} >Open in GitHub</Text>
+            </Pressable>
+        </View>
+    )
+}
+
+const Reposity = () => {
+
+    const { id } = useParams()
 
     const {data, error, loading} = useQuery(
         GET_REPOSITORY, 
@@ -163,22 +154,24 @@ const Reposity = () => {
         )
     }
 
-    //console.log('---- rendering repository ----')
-    //console.log(data)
+    console.log('---- rendering repository ----')
+    console.log(data.repository)
+
+    const reviewNodes = data
+    ? data.repository.reviews.edges.map((edge) => edge.node)
+    : []
 
     return(
-        <View>
-            <ReposityItem item={data.repository} />
 
-            <Pressable style={styles.button} onPress={() => openUrl(data.repository.url)} testID='githHubtButton'>
-                <Text style={styles.button} >Open in GitHub</Text>
-            </Pressable>
-            <ItemSeparator />
-            <ReviewList list={data.repository.reviews} />
-
+        <View style={{ flex: 1 }}>
+            <FlatList
+                ListHeaderComponent={() => <RepositoryContainer repository={data.repository} />}
+                data={reviewNodes}
+                ItemSeparatorComponent={ItemSeparator}
+                renderItem={({item}) => <ReviewItem item={item} />}
+                keyExtractor={item => item.id}
+            />          
         </View>
-
-
     )
 }
 
