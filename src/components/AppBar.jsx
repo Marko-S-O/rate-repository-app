@@ -35,8 +35,9 @@ const AppBar = () => {
             <AppBarTab tabText={'Review'} link={'/review'} />
             {authenticated ?
               <AppBarTab tabText={'Logout'} link={'/logout'} /> :
-              <AppBarTab tabText={'Sign in'} link={'/login'} />
-            }
+              <AppBarTab tabText={'Sign in'} link={'/login'} />  
+            }          
+            {!authenticated && (<AppBarTab tabText={'Sign up'} link={'/signup'} />)}
         </ScrollView>
     </View>
   )

@@ -137,6 +137,8 @@ const Reposity = () => {
 
     const { id } = useParams()
 
+    console.log()
+
     const {data, error, loading} = useQuery(
         GET_REPOSITORY, 
         {
