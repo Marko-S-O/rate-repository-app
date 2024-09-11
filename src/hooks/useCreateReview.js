@@ -15,23 +15,23 @@ export const useCreateReview = () => {
         console.log(rating)
         console.log(text)
 
-        try {
-            const { data } = await mutate({
-                variables: {
-                    review: {
-                        repositoryName, 
-                        ownerName,
-                        rating: parseInt(rating, 10),
-                        text                        
-                    }
+
+        const { data } = await mutate({
+            variables: {
+                review: {
+                    repositoryName, 
+                    ownerName,
+                    rating: parseInt(rating, 10),
+                    text                        
                 }
-            })
-            console.log('Succesfully stored review')
-            apolloClient.resetStore()
-            return data
-        } catch(exception) {
-            console.log('Mutation, mutation exception: ' + exception.message)
-        }
+            }
+        })
+        console.log('Succesfully stored review')
+        console.log(data)
+        apolloClient.resetStore()
+        console.log(data)
+
+        return data
     }
     return [createReview, result]
 }  

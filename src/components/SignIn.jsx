@@ -14,14 +14,13 @@ const SignIn = () => {
         try {
             const data = await signIn({ username, password })
             if(data && data.authenticate) {
-                console.log('succesful login in JSX')  
+                //console.log('succesful login in JSX')  
                 navigate('/')
             } 
         } catch (e) {
             console.log('Sign in failed in JSX: ' + e.message)
         }
-        
-        console.log(username + ' logged in')
+        //console.log(username + ' logged in')
     }
     return(
         <SignInContainer submitFunction={onSubmit} />    )

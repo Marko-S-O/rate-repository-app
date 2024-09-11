@@ -2,7 +2,7 @@ import { View, Pressable, StyleSheet, FlatList } from 'react-native'
 import { useParams } from 'react-router-native'
 import { useQuery } from '@apollo/client';
 import * as Linking from 'expo-linking';
-
+import ReviewItem from "./ReviewItem"
 import ReposityItem from "./RepositoryItem"
 import Text from './Text'
 import theme from '../theme'
@@ -95,21 +95,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-const ReviewItem = ({item}) => {
 
-    return(
-        <View style={styles.row} testID='reviewItem'>
-            <View style={styles.horizontalComponents}>
-                <Text style={styles.ratingNumber}>{item.rating}</Text>
-                <View style={styles.verticalComponents}>
-                    <Text style={styles.boldText}>{item.user.username}</Text>
-                    <Text style={styles.bodyText}>{item.cratedAt}</Text>
-                    <Text style={styles.bodyText}>{item.text}</Text>
-                </View>
-            </View>
-        </View>
-    )
-}
 
 const RepositoryContainer = ({repository}) => {
 
@@ -118,9 +104,9 @@ const RepositoryContainer = ({repository}) => {
         Linking.openURL(link)
     }
 
-    console.log('---- rendering repository ----')
-    console.log(repository.ownerName)
-    console.log(repository.fullName)
+    //console.log('---- rendering repository ----')
+    //console.log(repository.ownerName)
+    //console.log(repository.fullName)
 
     return(
         <View>
@@ -136,8 +122,6 @@ const RepositoryContainer = ({repository}) => {
 const Reposity = () => {
 
     const { id } = useParams()
-
-    console.log()
 
     const {data, error, loading} = useQuery(
         GET_REPOSITORY, 
@@ -160,8 +144,8 @@ const Reposity = () => {
         )
     }
 
-    console.log('---- rendering repository ----')
-    console.log(data.repository)
+    //console.log('---- rendering repository ----')
+    //console.log(data.repository)
 
     const reviewNodes = data
     ? data.repository.reviews.edges.map((edge) => edge.node)

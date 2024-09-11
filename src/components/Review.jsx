@@ -77,15 +77,15 @@ const Review = () => {
     const navigate = useNavigate()
     const [createReview] = useCreateReview()
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values, {setFieldError}) => {
 
         const { repositoryName, ownerName, rating, text } = values
 
-        console.log('---- osSubmit() ----')
-        console.log(repositoryName)
-        console.log(ownerName)
-        console.log(rating)
-        console.log(text)
+        //console.log('---- osSubmit() ----')
+        //console.log(repositoryName)
+        //console.log(ownerName)
+        //console.log(rating)
+        //console.log(text)
 
         try {
             const data = await createReview({ 
@@ -94,22 +94,24 @@ const Review = () => {
                 rating, 
                 text 
             })
+            //console.log('---back from mutate---')
+            //console.log(data)
             if(data) {
-                console.log('return data')  
-                console.log(data)
-                const link = '/repository/' + data.createReview.repository.id
+                const link = '/repository/' + String(data.createReview.repository.id)
                 console.log('navigating to: ' + link)
                 navigate(link)
-            } 
-        } catch (e) {
-            console.log('Error storing review: ' + e.message)
-        }
+            }
+        } catch(exception) {
+            console.log('error creating review: ' + exception.message)
+            setFieldError('repositoryName', 'Error creating review: ' + exception.message);
+        } 
+
     }
 
     const initialValues = {
         ownerName: '',
         repositoryName: '',
-        rating: 0,
+        rating: '',
         text: ''
       }
 

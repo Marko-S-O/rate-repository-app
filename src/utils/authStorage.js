@@ -20,7 +20,7 @@ class AuthStorage {
 
     async setAccessToken(accessToken) {
         // Add the access token to the storage
-        console.log('storing new access token: ' + accessToken)
+        //console.log('storing new access token: ' + accessToken)
         await AsyncStorage.setItem(this.getKey(), accessToken)
     }
 

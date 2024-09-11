@@ -1,7 +1,7 @@
 import { FlatList, View, StyleSheet } from 'react-native'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-native'
-//import { useState } from 'react'
+//import { useState, useEffect } from 'react'
 import {Picker} from '@react-native-picker/picker'
 import { Searchbar } from 'react-native-paper'
 import { useQuery } from '@apollo/client'
@@ -88,22 +88,33 @@ const SORT_TERM_LATEST_REPOSITORIES = 'Latest repositories'
 const SORT_TERM_HIGHERS_RATED = 'Highest rated'
 const SORT_TERM_LOWEST_RATED = 'Lowest rated'
 
-const OrderMenu = ({changeSortTerm, sortTerm, changeSearchTerm, searchTerm}) => {
+const OrderAndSortMenu = ({changeSortTerm, sortTerm, changeSearchTerm, searchTerm}) => {
 
-  //const handleSearchChange = (term) => {
-  //  setSearchTerm(term)
-  //  changeSearchTerm(term)
-  //}
-  
   const sortTermValue = sortTerm? sortTerm : SORT_TERM_LATEST_REPOSITORIES
+  const searchBarRef = useRef()
+  //const [searchFocus, setSearchFocus] = useState(false)
 
-  // Did not find a good way to maintain focus on searchbar
-  // tried useEffect and state variables without effect - giving up
-  // and adding bouce delay to 1000 ms to mitigate a bit
+  // without maintaing the focus information in state, we would either lose
+  // focus from the searchbar on each render or require two clicks for menu items in mobile devices
+  // => does not work, for some weird reason searchFocus gets set to inital state with every render
+  // clicking another component twice to make it work seems to be the least bad solution here
+  //useEffect(() => {
+  //  console.log(searchFocus)
+  //  if(searchFocus && searchBarRef.current){
+  //    searchBarRef.current.focus()
+  //  }
+  //}, [searchFocus])
+
+  useEffect(() => {
+    if(searchBarRef.current){
+        searchBarRef.current.focus()
+    }
+  })
 
   return(
     <View style={styles.orderMenu}>
       <Searchbar 
+        ref={searchBarRef}
         style={styles.searchBar}
         placeholder="Enter search term here"
         onChangeText={changeSearchTerm}
@@ -138,7 +149,7 @@ export const RepositoryListContainer = ({ repositories, changeSortTerm, sortTerm
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({item}) => <RepositoryItem item={item} />}
       keyExtractor={item => item.id}
-      ListHeaderComponent={<OrderMenu 
+      ListHeaderComponent={<OrderAndSortMenu 
         changeSortTerm={changeSortTerm} 
         sortTerm={sortTerm}
         changeSearchTerm={changeSearchTerm} 
@@ -174,7 +185,7 @@ const RepositoryList = () => {
   const [sortTerm, setSortTerm] = useState(SORT_TERM_LATEST_REPOSITORIES)
   const [searchTerm, setSearchTerm] = useState('')
 
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 1000)
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500)
 
   const {data, error, loading} = useQuery(GET_REPOSITORIES, {  
     variables: {
@@ -205,7 +216,6 @@ const RepositoryList = () => {
           sortTerm={sortTerm}
           changeSearchTerm={changeSearchTerm} 
           searchTerm={searchTerm}
-        
         />
         :
         <Link to="/login" >

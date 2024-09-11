@@ -15,9 +15,9 @@ export const useIsAuthenticated = () => {
     return false
   }
 
-  console.log('authenticated data:')
-  console.log(data)
+  //console.log('authenticated data:')
+  //console.log(data)
   const authenticated = data && data.me ? true : false
-  console.log('authenticated: ' + authenticated)
+  //console.log('authenticated: ' + authenticated)
   return authenticated
 }

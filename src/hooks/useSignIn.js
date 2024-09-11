@@ -20,8 +20,8 @@ export const useSignIn = () => {
                     }
                 }
             })
-            console.log('login succeeded in the hook')
-            console.log('token: ' + data.authenticate.accessToken)
+            //console.log('login succeeded in the hook')
+            //console.log('token: ' + data.authenticate.accessToken)
             await authStorage.setAccessToken(data.authenticate.accessToken)
             apolloClient.resetStore()
             return data
