@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 const AppBar = () => {
 
   const authenticated = useIsAuthenticated()
-  console.log('*** authenticated in AppBar: ' + authenticated)
+  //console.log('*** authenticated in AppBar: ' + authenticated)
 
   return(
     <View style={styles.container}>

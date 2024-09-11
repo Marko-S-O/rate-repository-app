@@ -36,7 +36,8 @@
     "react-native-web": "~0.19.6",
     "react-router-native": "^6.26.1",
     "yup": "^1.4.0",
-    "expo-linking": "~6.2.2"
+    "expo-linking": "~6.2.2",
+    "@react-native-picker/picker": "2.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
