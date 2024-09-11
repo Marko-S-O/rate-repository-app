@@ -1,14 +1,16 @@
 import { FlatList, View, StyleSheet } from 'react-native'
-import { useState } from 'react';
+import { useState } from 'react'
 import { Link } from 'react-router-native'
-//import { useState } from 'react';
-import {Picker} from '@react-native-picker/picker';
-import { useQuery } from '@apollo/client';
+//import { useState } from 'react'
+import {Picker} from '@react-native-picker/picker'
+import { Searchbar } from 'react-native-paper'
+import { useQuery } from '@apollo/client'
+import { useDebounce } from 'use-debounce'
 import RepositoryItem from './RepositoryItem'
 import {GET_REPOSITORIES} from '../graphql/queries'
 import {useIsAuthenticated} from "../hooks/useAuthenticated"
 import theme from '../theme'
-import Text from './Text';
+import Text from './Text'
 
 const styles = StyleSheet.create({
   separator: {
@@ -66,6 +68,17 @@ const styles = StyleSheet.create({
     paddingBottom: 5, 
     paddingLeft: 10, 
     paddingRight: 10
+  },
+  searchBar: {
+    fontFamily: theme.fontFamily,
+    color: theme.colors.textPrimary,
+    backgroundColor: '#FFFFFF',
+    fontWeight: theme.fontWeights.normal,
+    fontSize: theme.fontSizes.bodyText,
+    paddingLeft: 10, 
+    paddingRight: 10,
+    marginBottom: 5,
+    borderRadius: 3
   }
 })
 
@@ -75,12 +88,27 @@ const SORT_TERM_LATEST_REPOSITORIES = 'Latest repositories'
 const SORT_TERM_HIGHERS_RATED = 'Highest rated'
 const SORT_TERM_LOWEST_RATED = 'Lowest rated'
 
-const OrderMenu = ({changeSortTerm, sortTerm}) => {
+const OrderMenu = ({changeSortTerm, sortTerm, changeSearchTerm, searchTerm}) => {
 
-
+  //const handleSearchChange = (term) => {
+  //  setSearchTerm(term)
+  //  changeSearchTerm(term)
+  //}
+  
   const sortTermValue = sortTerm? sortTerm : SORT_TERM_LATEST_REPOSITORIES
+
+  // Did not find a good way to maintain focus on searchbar
+  // tried useEffect and state variables without effect - giving up
+  // and adding bouce delay to 1000 ms to mitigate a bit
+
   return(
     <View style={styles.orderMenu}>
+      <Searchbar 
+        style={styles.searchBar}
+        placeholder="Enter search term here"
+        onChangeText={changeSearchTerm}
+        value={searchTerm}
+      />
       <Picker
         style={styles.orderMenuPicker}
         selectedValue={sortTermValue}
@@ -98,7 +126,7 @@ const OrderMenu = ({changeSortTerm, sortTerm}) => {
   )
 }
 
-export const RepositoryListContainer = ({ repositories, changeSortTerm, sortTerm }) => {
+export const RepositoryListContainer = ({ repositories, changeSortTerm, sortTerm, changeSearchTerm, searchTerm }) => {
   
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -110,15 +138,18 @@ export const RepositoryListContainer = ({ repositories, changeSortTerm, sortTerm
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({item}) => <RepositoryItem item={item} />}
       keyExtractor={item => item.id}
-      ListHeaderComponent={<OrderMenu changeSortTerm={changeSortTerm} sortTerm={sortTerm}/>}
+      ListHeaderComponent={<OrderMenu 
+        changeSortTerm={changeSortTerm} 
+        sortTerm={sortTerm}
+        changeSearchTerm={changeSearchTerm} 
+        searchTerm={searchTerm}
+      />}
     />
   )
 }
 
-
 const RepositoryList = () => {
 
-  
   const changeSortTerm = (sortTermIndex, sortTermValue) => {
     if(sortTermIndex == 1) {
       setOrderBy('RATING_AVERAGE')
@@ -133,14 +164,23 @@ const RepositoryList = () => {
     setSortTerm(sortTermValue)
   }
 
+  const changeSearchTerm = (searchTermValue) => {
+    setSearchTerm(searchTermValue)
+    console.log(searchTermValue)
+  }
+
   const [orderDirection, setOrderDirection] = useState()
   const [orderBy, setOrderBy] = useState()
   const [sortTerm, setSortTerm] = useState(SORT_TERM_LATEST_REPOSITORIES)
-  
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 1000)
+
   const {data, error, loading} = useQuery(GET_REPOSITORIES, {  
     variables: {
       orderDirection, 
       orderBy,        
+      searchKeyword: debouncedSearchTerm
     },
     fetchPolicy: 'cache-and-network'
   })
@@ -159,7 +199,14 @@ const RepositoryList = () => {
   return (
     <View>
       {authenticated ?
-        <RepositoryListContainer repositories={data.repositories} changeSortTerm={changeSortTerm} sortTerm={sortTerm}/>
+        <RepositoryListContainer 
+          repositories={data.repositories} 
+          changeSortTerm={changeSortTerm} 
+          sortTerm={sortTerm}
+          changeSearchTerm={changeSearchTerm} 
+          searchTerm={searchTerm}
+        
+        />
         :
         <Link to="/login" >
           <Text style={styles.boldText}>
